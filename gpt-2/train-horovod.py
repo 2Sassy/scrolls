@@ -104,16 +104,16 @@ def train_main(dataset,
                 os.path.join('models', model_name))
         else:
             ckpt = tf.train.latest_checkpoint(restore_from)
-        print(str(hvd.local_rank()), 'Loading checkpoint', ckpt)
+        print(hvd.local_rank(), 'Loading checkpoint', ckpt)
         saver.restore(sess, ckpt)
 
         bcast.run()
 
-        print(str(hvd.local_rank()), 'Loading dataset...')
+        print(hvd.local_rank(), 'Loading dataset...')
         chunks = load_dataset(enc, dataset, combine)
         data_sampler = Sampler(chunks)
-        print(str(hvd.local_rank()), 'dataset has', data_sampler.total_size, 'tokens')
-        print(str(hvd.local_rank()), 'Training...')
+        print(hvd.local_rank(), 'dataset has', data_sampler.total_size, 'tokens')
+        print(hvd.local_rank(), 'Training...')
 
         counter = 1
         if os.path.exists(os.path.join(CHECKPOINT_DIR, run_name, 'counter')):
