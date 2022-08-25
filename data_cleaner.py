@@ -6,7 +6,7 @@ def text_loader(folder_list):
     DATA={}
     for folders in folder_list:
         folder = []
-        books=glob("dataset/"+folders+"/*.txt")
+        books = glob(f"dataset/{folders}/*.txt")
         shuffle(books)
         for files in books:
             if not files:
@@ -73,9 +73,8 @@ def serializer(text):
     return serialized_text
 
 def data_loader(folder_list):
-    if(type(folder_list)==str):
-        f=[]
-        f.append(folder_list)
+    if (type(folder_list)==str):
+        f = [folder_list]
         folder_list=f
     data_dic = text_loader(folder_list)
     for types in data_dic.keys():
@@ -83,7 +82,7 @@ def data_loader(folder_list):
             book = serializer(book)
     genre_wise_data = genre_type_compressor(data_dic)
     for genre in genre_wise_data.keys():
-        with open("dataset/filter_"+str(genre)+".txt","w") as opened_file:
+        with open(f"dataset/filter_{str(genre)}.txt", "w") as opened_file:
             opened_file.write(genre_wise_data[genre])
     print("Done!")
     return genre_wise_data
